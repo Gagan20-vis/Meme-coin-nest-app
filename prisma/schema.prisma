@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  address   String?   @unique
+  username  String?
+  email     String   @unique
+  password  String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  games     Game[]   @relation("PlayerGames")
+  moves     Move[]
+
+  Game Game[]
+}
+
+model Game {
+  id          String     @id @default(uuid())
+  hostAgentId String
+  hostAgent   HostAgent  @relation(fields: [hostAgentId], references: [id])
+  escrowId    String
+  escrow      Escrow     @relation(fields: [escrowId], references: [id])
+  players     User[]     @relation("PlayerGames")
+  moves       Move[]
+  status      GameStatus @default(PENDING)
+  winnerId    String?
+  winner      User?      @relation(fields: [winnerId], references: [id])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Move {
+  id        String   @id @default(uuid())
+  gameId    String
+  game      Game     @relation(fields: [gameId], references: [id])
+  playerId  String
+  player    User     @relation(fields: [playerId], references: [id])
+  position  Int
+  createdAt DateTime @default(now())
+}
+
+model HostAgent {
+  id        String   @id @default(uuid())
+  address   String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  games     Game[]
+}
+
+model Escrow {
+  id              String   @id @default(uuid())
+  contractAddress String
+  amount          Float
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  games           Game[]
+}
+
+enum GameStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+}
