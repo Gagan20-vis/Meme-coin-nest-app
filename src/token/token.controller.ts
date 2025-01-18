@@ -35,10 +35,7 @@ export class TokenController {
     // Reaction APIs
 
     @Post(':id/reactions')
-    async addReaction(
-        @Param('id') tokenId: string,
-        @Body() data: Prisma.ReactionCreateInput,
-    ) {
+    async addReaction(@Param('id') tokenId: string, @Body() data: Prisma.ReactionCreateInput) {
         return this.tokenService.addReaction(tokenId, data);
     }
 
@@ -62,10 +59,7 @@ export class TokenController {
     }
 
     @Delete(':id/reactions/:reactionId')
-    async deleteReaction(
-        @Param('id') tokenId: string,
-        @Param('reactionId') reactionId: number,
-    ) {
+    async deleteReaction(@Param('id') tokenId: string, @Param('reactionId') reactionId: number) {
         return this.tokenService.deleteReaction(reactionId);
     }
 }
