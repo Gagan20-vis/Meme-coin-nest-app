@@ -28,4 +28,36 @@ export class TokenService {
     async deleteToken(tokenId: string) {
         return this.prisma.token.delete({ where: { id: tokenId } });
     }
+
+    async addReaction(tokenId: string, data: Prisma.ReactionCreateInput) {
+        return this.prisma.reaction.create({
+            data: {
+                ...data,
+                token: { connect: { tokenAddress: tokenId } },
+            },
+        });
+    }
+
+    async getReactions(tokenId: string) {
+        return this.prisma.reaction.findMany({
+            where: { tokenAddress: tokenId },
+        });
+    }
+
+    async getReactionCount(tokenId: string) {
+        return this.prisma.reaction.count({
+            where: { tokenAddress: tokenId },
+        });
+    }
+
+    async updateReaction(reactionId: number, data: Prisma.ReactionUpdateInput) {
+        return this.prisma.reaction.update({
+            where: { id: reactionId },
+            data,
+        });
+    }
+
+    async deleteReaction(reactionId: number) {
+        return this.prisma.reaction.delete({ where: { id: reactionId } });
+    }
 }

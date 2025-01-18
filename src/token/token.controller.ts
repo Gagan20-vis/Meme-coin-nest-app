@@ -31,4 +31,41 @@ export class TokenController {
     async deleteToken(@Param('id') tokenId: string) {
         return this.tokenService.deleteToken(tokenId);
     }
+
+    // Reaction APIs
+
+    @Post(':id/reactions')
+    async addReaction(
+        @Param('id') tokenId: string,
+        @Body() data: Prisma.ReactionCreateInput,
+    ) {
+        return this.tokenService.addReaction(tokenId, data);
+    }
+
+    @Get(':id/reactions')
+    async getReactions(@Param('id') tokenId: string) {
+        return this.tokenService.getReactions(tokenId);
+    }
+
+    @Get(':id/reactions/count')
+    async getReactionCount(@Param('id') tokenId: string) {
+        return this.tokenService.getReactionCount(tokenId);
+    }
+
+    @Put(':id/reactions/:reactionId')
+    async updateReaction(
+        @Param('id') tokenId: string,
+        @Param('reactionId') reactionId: number,
+        @Body() data: Prisma.ReactionUpdateInput,
+    ) {
+        return this.tokenService.updateReaction(reactionId, data);
+    }
+
+    @Delete(':id/reactions/:reactionId')
+    async deleteReaction(
+        @Param('id') tokenId: string,
+        @Param('reactionId') reactionId: number,
+    ) {
+        return this.tokenService.deleteReaction(reactionId);
+    }
 }
