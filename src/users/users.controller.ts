@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
 import { UserService } from './users.service';
@@ -13,8 +13,8 @@ export class UserController {
     }
 
     @Get()
-    async getUsers() {
-        return this.userService.getUsers();
+    async getUsers(@Query() filter: Prisma.UserFindManyArgs) {
+        return this.userService.getUsers(filter);
     }
 
     @Get(':id')

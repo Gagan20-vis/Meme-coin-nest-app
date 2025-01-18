@@ -10,8 +10,8 @@ export class UserService {
         return this.prisma.user.create({ data });
     }
 
-    async getUsers() {
-        return this.prisma.user.findMany();
+    async getUsers(filter: Prisma.UserFindManyArgs) {
+        return this.prisma.user.findMany(filter);
     }
 
     async getUserById(userId: string) {
@@ -29,7 +29,6 @@ export class UserService {
         return this.prisma.user.delete({ where: { userId } });
     }
 
-    // Follow a user
     async followUser(userId: string, followUserId: string): Promise<{ message: string }> {
         const user = await this.prisma.user.findUnique({ where: { userId } });
         const followUser = await this.prisma.user.findUnique({ where: { userId: followUserId } });
