@@ -31,4 +31,34 @@ export class UserController {
     async deleteUser(@Param('id') userId: string) {
         return this.userService.deleteUser(userId);
     }
+
+
+    @Post(':id/wallets')
+    async addWallet(@Param('id') userId: string, @Body() walletData: Prisma.WalletCreateInput) {
+        return this.userService.addWallet(userId, walletData);
+    }
+
+    @Get(':id/wallets')
+    async getWallets(@Param('id') userId: string) {
+        return this.userService.getWallets(userId);
+    }
+
+    @Get(':id/wallets/:walletAddress')
+    async getWalletByAddress(@Param('id') userId: string, @Param('walletAddress') address: string) {
+        return this.userService.getWalletByAddress(userId, address);
+    }
+
+    @Put(':id/wallets/:walletAddress')
+    async updateWallet(
+        @Param('id') userId: string,
+        @Param('walletAddress') address: string,
+        @Body() walletData: Prisma.WalletUpdateInput,
+    ) {
+        return this.userService.updateWallet(userId, address, walletData);
+    }
+
+    @Delete(':id/wallets/:walletAddress')
+    async deleteWallet(@Param('id') userId: string, @Param('walletAddress') address: string) {
+        return this.userService.deleteWallet(userId, address);
+    }
 }

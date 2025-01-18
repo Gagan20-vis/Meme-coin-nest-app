@@ -82,4 +82,38 @@ export class UserService {
 
         return { message: 'Unfollow successful' };
     }
+
+    async addWallet(userId: string, walletData: Prisma.WalletCreateInput) {
+        return this.prisma.wallet.create({
+            data: {
+                ...walletData,
+                user: { connect: { userId } },
+            },
+        });
+    }
+
+    async getWallets(userId: string) {
+        return this.prisma.wallet.findMany({
+            where: { userId },
+        });
+    }
+
+    async getWalletByAddress(userId: string, address: string) {
+        return this.prisma.wallet.findFirst({
+            where: { userId, address },
+        });
+    }
+
+    async updateWallet(userId: string, address: string, walletData: Prisma.WalletUpdateInput) {
+        return this.prisma.wallet.update({
+            where: { address },
+            data: walletData,
+        });
+    }
+
+    async deleteWallet(userId: string, address: string) {
+        return this.prisma.wallet.delete({
+            where: { address },
+        });
+    }
 }
