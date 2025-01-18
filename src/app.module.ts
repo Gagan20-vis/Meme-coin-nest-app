@@ -6,9 +6,10 @@ import { UsersModule } from './users/users.module';
 import { TokenModule } from './token/token.module';
 import { TradeModule } from './trade/trade.module';
 import { CommentModule } from './comment/comment.module';
+import { HolderModule } from './holder/holder.module';
 
 @Module({
-    imports: [PrismaModule.forRoot(), UsersModule, TokenModule, TradeModule, CommentModule],
+    imports: [PrismaModule.forRoot(), UsersModule, TokenModule, TradeModule, CommentModule, HolderModule],
     controllers: [AppController],
     providers: [AppService],
 })
