@@ -32,7 +32,6 @@ export class UserController {
         return this.userService.deleteUser(userId);
     }
 
-
     @Post(':id/wallets')
     async addWallet(@Param('id') userId: string, @Body() walletData: Prisma.WalletCreateInput) {
         return this.userService.addWallet(userId, walletData);
