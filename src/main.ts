@@ -13,8 +13,8 @@ async function bootstrap() {
     app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
     const config = new DocumentBuilder()
-        .setTitle('AgentX')
-        .setDescription('The AgentX API description')
+        .setTitle('Pumper')
+        .setDescription('The Pumper API description')
         .setVersion('0.1')
         .build();
     const document = SwaggerModule.createDocument(app, config);
