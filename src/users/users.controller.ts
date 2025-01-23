@@ -1,9 +1,12 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-
-// import { UserCreateDto } from './dto/user-create.dto';
 import { Prisma } from '@prisma/client';
+
+//Services
 import { UserService } from './users.service';
+
+//DTOs
+import { UserCreateDto } from './dto/user-create.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -14,7 +17,7 @@ export class UserController {
     @ApiOperation({ summary: 'Create a new user' })
     @ApiResponse({ status: 201, description: 'User created successfully.' })
     @ApiResponse({ status: 400, description: 'Invalid input.' })
-    async createUser(@Body() data: Prisma.UserCreateInput) {
+    async createUser(@Body() data: UserCreateDto) {
         return this.userService.createUser(data);
     }
 
@@ -79,5 +82,29 @@ export class UserController {
     @ApiOperation({ summary: 'Delete a wallet for a user' })
     async deleteWallet(@Param('id') userId: string, @Param('walletAddress') address: string) {
         return this.userService.deleteWallet(userId, address);
+    }
+
+    @Post(':id/follow/:followUserId')
+    @ApiOperation({ summary: 'Follow a user' })
+    async followUser(@Param('id') userId: string, @Param('followUserId') followUserId: string) {
+        return this.userService.followUser(userId, followUserId);
+    }
+
+    @Delete(':id/unfollow/:unfollowUserId')
+    @ApiOperation({ summary: 'Unfollow a user' })
+    async unfollowUser(@Param('id') userId: string, @Param('unfollowUserId') unfollowUserId: string) {
+        return this.userService.unfollowUser(userId, unfollowUserId);
+    }
+
+    @Get(':id/followers')
+    @ApiOperation({ summary: 'Get followers of a user' })
+    async getFollowers(@Param('id') userId: string) {
+        return this.userService.getFollowers(userId);
+    }
+
+    @Get(':id/following')
+    @ApiOperation({ summary: 'Get users followed by a user' })
+    async getFollowing(@Param('id') userId: string) {
+        return this.userService.getFollowing(userId);
     }
 }

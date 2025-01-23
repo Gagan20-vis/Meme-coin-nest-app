@@ -38,9 +38,8 @@ model User {
   kycStatus     String?    @default("null")
   country       String?
   documentType  String?
-  documentFront String?
-  documentBack  String?
-  documentUrl   String?
+  documentFrontUrl String?
+  documentBackUrl  String?
   wallets       Wallet[]
   Holder        Holder[]
   Token         Token[]
