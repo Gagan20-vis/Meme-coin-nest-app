@@ -98,9 +98,9 @@ export class UserService {
         });
     }
 
-    async getWalletByAddress(userId: string, address: string) {
+    async getWalletByAddress(address: string) {
         return this.prisma.wallet.findFirst({
-            where: { userId, address },
+            where: { address },
         });
     }
 
