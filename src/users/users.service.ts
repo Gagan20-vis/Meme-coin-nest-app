@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
+import { GetUsersDto } from './dto/get-users.dto';
 
 @Injectable()
 export class UserService {
@@ -10,8 +11,14 @@ export class UserService {
         return this.prisma.user.create({ data });
     }
 
-    async getUsers(filter: Prisma.UserFindManyArgs) {
-        return this.prisma.user.findMany(filter);
+    async getUsers(getUsersQuery: GetUsersDto) {
+        return this.prisma.user.findMany({
+            where: getUsersQuery.where,
+            orderBy: getUsersQuery.orderBy,
+            take: getUsersQuery.take,
+            skip: getUsersQuery.skip,
+            distinct: getUsersQuery.distinct,
+        });
     }
 
     async getUserById(userId: string) {

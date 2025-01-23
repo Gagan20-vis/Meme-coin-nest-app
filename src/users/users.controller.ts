@@ -7,6 +7,7 @@ import { UserService } from './users.service';
 
 //DTOs
 import { UserCreateDto } from './dto/user-create.dto';
+import { GetUsersDto } from './dto/get-users.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -24,8 +25,8 @@ export class UserController {
     @Get()
     @ApiOperation({ summary: 'Get all users' })
     @ApiResponse({ status: 200, description: 'List of users.' })
-    async getUsers(@Query() filter: Prisma.UserFindManyArgs) {
-        return this.userService.getUsers(filter);
+    async getUsers(@Query() getUsersQuery: GetUsersDto) {
+        return this.userService.getUsers(getUsersQuery);
     }
 
     @Get(':id')
