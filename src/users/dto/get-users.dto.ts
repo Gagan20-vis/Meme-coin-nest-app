@@ -26,21 +26,6 @@ class UserWhereInput implements Prisma.UserWhereInput {
 
 export class GetUsersDto {
     @IsOptional()
-    @IsString()
-    @ApiProperty({ required: false, type: String })
-    username?: string;
-
-    @IsOptional()
-    @IsBoolean()
-    @ApiProperty({ required: false, type: Boolean })
-    verified?: boolean;
-
-    @IsOptional()
-    @IsString()
-    @ApiProperty({ required: false, type: String })
-    email?: string;
-
-    @IsOptional()
     @IsObject()
     @ApiProperty({ required: false, type: UserWhereInput })
     where?: UserWhereInput;
