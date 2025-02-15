@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
+import { GetCommentsDto } from './dto/get-comments.dto';
 
 @Injectable()
 export class CommentService {
@@ -12,7 +13,7 @@ export class CommentService {
         });
     }
 
-    async getComments(filter: Prisma.CommentFindManyArgs) {
+    async getComments(filter: GetCommentsDto) {
         return this.prisma.comment.findMany(filter);
     }
 

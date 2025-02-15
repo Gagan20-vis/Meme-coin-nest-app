@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-
 import { CommentService } from './comment.service';
+import { GetCommentsDto } from './dto/get-comments.dto';
 
 @Controller('comments')
 export class CommentController {
@@ -13,7 +13,7 @@ export class CommentController {
     }
 
     @Get()
-    async getComments(@Query() filter: Prisma.CommentFindManyArgs) {
+    async getComments(@Query() filter: GetCommentsDto) {
         return this.commentService.getComments(filter);
     }
 
