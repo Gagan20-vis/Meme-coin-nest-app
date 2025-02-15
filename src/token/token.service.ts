@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
+import { GetTokensDto } from './dto/get-tokens.dto';
 
 @Injectable()
 export class TokenService {
@@ -10,7 +11,7 @@ export class TokenService {
         return this.prisma.token.create({ data });
     }
 
-    async getTokens(filter: Prisma.TokenFindManyArgs) {
+    async getTokens(filter: GetTokensDto) {
         return this.prisma.token.findMany(filter);
     }
 

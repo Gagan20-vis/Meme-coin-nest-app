@@ -12,7 +12,13 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
     app.enableCors();
-    app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+    app.useGlobalPipes(
+        new ValidationPipe({
+            transform: true,
+            whitelist: true,
+            transformOptions: { enableImplicitConversion: true },
+        }),
+    );
     app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
     const config = new DocumentBuilder()

@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-
 import { TokenService } from './token.service';
+import { GetTokensDto } from './dto/get-tokens.dto';
 
 @Controller('tokens')
 export class TokenController {
@@ -13,7 +13,7 @@ export class TokenController {
     }
 
     @Get()
-    async getTokens(@Query() filter: Prisma.TokenFindManyArgs) {
+    async getTokens(@Query() filter: GetTokensDto) {
         return this.tokenService.getTokens(filter);
     }
 
