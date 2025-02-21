@@ -61,7 +61,19 @@ class TokenIncludeInput implements Prisma.TokenInclude {
     _count?: boolean;
 }
 
+class TokenOrderByRelation implements Prisma.TokenOrderByWithRelationInput {
+    @IsOptional()
+    @IsObject()
+    @ApiProperty({ required: false, type: Object })
+    Trade: Prisma.TradeOrderByRelationAggregateInput;
+}
+
 export class GetTokensDto {
+    @IsOptional()
+    @IsObject()
+    @ApiProperty({ required: false, type: TokenOrderByRelation })
+    orderBy?: TokenOrderByRelation;
+
     @IsOptional()
     @IsObject()
     @ApiProperty({ required: false, type: TokenWhereInput })
