@@ -1,183 +1,183 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 enum Network {
-  Solana
-  Ethereum
-  Base
-  SolanaTestnet
-  EthereumTestnet
-  BaseTestnet
+    Solana
+    Ethereum
+    Base
+    SolanaTestnet
+    EthereumTestnet
+    BaseTestnet
 }
 
 enum SaleType {
-  Buy
-  Sell
+    Buy
+    Sell
 }
 
 model User {
-  userId           String     @id @default(uuid())
-  username         String?
-  verified         Boolean?
-  imageUrl         String?
-  coverUrl         String?
-  referralId       String?
-  inviteId         String?
-  bio              String?
-  socialMedia      String?
-  email            String?
-  twitter          String?
-  telegram         String?
-  link             String?
-  kycStatus        String?    @default("null")
-  country          String?
-  documentType     String?
-  documentFrontUrl String?
-  documentBackUrl  String?
-  wallets          Wallet[]
-  Holder           Holder[]
-  Token            Token[]
-  Reaction         Reaction[]
-  followers        Follow[]   @relation("Follower")
-  following        Follow[]   @relation("Following")
-  Comment          Comment[]
-  Trade            Trade[]
+    userId           String     @id @default(uuid())
+    username         String?
+    verified         Boolean?
+    imageUrl         String?
+    coverUrl         String?
+    referralId       String?
+    inviteId         String?
+    bio              String?
+    socialMedia      String?
+    email            String?
+    twitter          String?
+    telegram         String?
+    link             String?
+    kycStatus        String?    @default("null")
+    country          String?
+    documentType     String?
+    documentFrontUrl String?
+    documentBackUrl  String?
+    wallets          Wallet[]
+    Holder           Holder[]
+    Token            Token[]
+    Reaction         Reaction[]
+    followers        Follow[]   @relation("Follower")
+    following        Follow[]   @relation("Following")
+    Comment          Comment[]
+    Trade            Trade[]
 
-  @@map("users")
+    @@map("users")
 }
 
 model Wallet {
-  address String   @id
-  network Network
-  userId  String
-  user    User     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
-  tokens  Token[]
-  trades  Trade[]
-  holders Holder[]
+    address String   @id
+    network Network
+    userId  String
+    user    User     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+    tokens  Token[]
+    trades  Trade[]
+    holders Holder[]
 
-  @@map("wallets")
+    @@map("wallets")
 }
 
 model Follow {
-  followerId  String
-  followingId String
-  createdAt   DateTime @default(now())
+    followerId  String
+    followingId String
+    createdAt   DateTime @default(now())
 
-  follower  User @relation("Follower", fields: [followerId], references: [userId])
-  following User @relation("Following", fields: [followingId], references: [userId])
+    follower  User @relation("Follower", fields: [followerId], references: [userId])
+    following User @relation("Following", fields: [followingId], references: [userId])
 
-  @@unique([followerId, followingId])
-  @@map("follows")
+    @@unique([followerId, followingId])
+    @@map("follows")
 }
 
 model Trade {
-  id             Int      @id @default(autoincrement())
-  network        Network
-  type           SaleType
-  tokenAddress   String
-  swapperAddress String
-  swapperId      String
-  baseAmount     Float
-  tokenAmount    Float
-  tokenPrice     Float    @default(0)
-  date           DateTime @default(now())
-  txHash         String
-  user           User     @relation(fields: [swapperId], references: [userId])
-  wallet         Wallet   @relation(fields: [swapperAddress], references: [address])
-  token          Token    @relation(fields: [tokenAddress], references: [tokenAddress])
+    id             Int      @id @default(autoincrement())
+    network        Network
+    type           SaleType
+    tokenAddress   String
+    swapperAddress String
+    swapperId      String
+    baseAmount     Float
+    tokenAmount    Float
+    tokenPrice     Float    @default(0)
+    date           DateTime @default(now())
+    txHash         String
+    user           User     @relation(fields: [swapperId], references: [userId])
+    wallet         Wallet   @relation(fields: [swapperAddress], references: [address])
+    token          Token    @relation(fields: [tokenAddress], references: [tokenAddress])
 
-  @@map("trades")
+    @@map("trades")
 }
 
 model Token {
-  id                  String     @id
-  tokenName           String
-  tokenAddress        String     @unique
-  bondingCurveAddress String?
-  network             Network
-  description         String
-  tokenSymbol         String
-  webLink             String?
-  telegramLink        String?
-  twitterLink         String?
-  maxBuyPerWallet     Float?
-  startTime           DateTime   @default(now())
-  imageUrl            String
-  creatorId           String
-  creatorAddress      String
-  creator             User       @relation(fields: [creatorId], references: [userId], onUpdate: Cascade, onDelete: Cascade)
-  creatorWallet       Wallet     @relation(fields: [creatorAddress], references: [address], onUpdate: Cascade, onDelete: Cascade)
-  verified            Boolean?
-  marketCap           Float?
-  liquidity           Float?
-  virtualLP           Float?
-  capacity            Float?
-  devsOwnership       Int?
-  volume              Float?
-  makers              Int?
-  price               Float?
-  launched            Boolean?
-  Holder              Holder[]
-  Reaction            Reaction[]
-  Trade               Trade[]
-  comments            Comment[]  @relation("TokenComments")
+    id                  String     @id
+    tokenName           String
+    tokenAddress        String     @unique
+    bondingCurveAddress String?
+    network             Network
+    description         String
+    tokenSymbol         String
+    webLink             String?
+    telegramLink        String?
+    twitterLink         String?
+    maxBuyPerWallet     Float?
+    startTime           DateTime   @default(now())
+    imageUrl            String
+    creatorId           String
+    creatorAddress      String
+    creator             User       @relation(fields: [creatorId], references: [userId], onUpdate: Cascade, onDelete: Cascade)
+    creatorWallet       Wallet     @relation(fields: [creatorAddress], references: [address], onUpdate: Cascade, onDelete: Cascade)
+    verified            Boolean?
+    marketCap           Float?
+    liquidity           Float?
+    virtualLP           Float?
+    capacity            Float?
+    devsOwnership       Int?
+    volume              Float?
+    makers              Int?
+    price               Float?
+    launched            Boolean?
+    Holder              Holder[]
+    Reaction            Reaction[]
+    Trade               Trade[]
+    comments            Comment[]  @relation("TokenComments")
 
-  @@map("tokens")
+    @@map("tokens")
 }
 
 enum ReactionType {
-  takingOff
-  hot
-  poop
-  redFlag
+    takingOff
+    hot
+    poop
+    redFlag
 }
 
 model Reaction {
-  id           Int          @id @default(autoincrement())
-  userId       String
-  tokenAddress String
-  type         ReactionType
-  user         User         @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
-  token        Token        @relation(fields: [tokenAddress], references: [tokenAddress], onDelete: Cascade, onUpdate: Cascade)
+    id           Int          @id @default(autoincrement())
+    userId       String
+    tokenAddress String
+    type         ReactionType
+    user         User         @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+    token        Token        @relation(fields: [tokenAddress], references: [tokenAddress], onDelete: Cascade, onUpdate: Cascade)
 
-  @@map("reactions")
+    @@map("reactions")
 }
 
 model Holder {
-  id                  Int     @id @default(autoincrement())
-  tokenName           String?
-  tokenSymbol         String?
-  tokenAddress        String
-  bondingCurveAddress String?
-  network             Network
-  holderAddress       String
-  tokenAmount         Float?
-  tokenMaxAmount      Float?
-  creatorAddress      String?
-  token               Token   @relation(fields: [tokenAddress], references: [tokenAddress], onDelete: Cascade, onUpdate: Cascade)
-  holder              User    @relation(fields: [holderAddress], references: [userId], onDelete: Cascade, onUpdate: Cascade)
-  Wallet              Wallet? @relation(fields: [walletAddress], references: [address])
-  walletAddress       String?
+    id                  Int     @id @default(autoincrement())
+    tokenName           String?
+    tokenSymbol         String?
+    tokenAddress        String
+    bondingCurveAddress String?
+    network             Network
+    holderAddress       String
+    tokenAmount         Float?
+    tokenMaxAmount      Float?
+    creatorAddress      String?
+    token               Token   @relation(fields: [tokenAddress], references: [tokenAddress], onDelete: Cascade, onUpdate: Cascade)
+    holder              User    @relation(fields: [holderAddress], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+    Wallet              Wallet? @relation(fields: [walletAddress], references: [address])
+    walletAddress       String?
 
-  @@index([tokenAddress, holderAddress], map: "holders_tokenAddress_holderAddress_unique")
-  @@map("holders")
+    @@index([tokenAddress, holderAddress], map: "holders_tokenAddress_holderAddress_unique")
+    @@map("holders")
 }
 
 model Comment {
-  id           Int      @id @default(autoincrement())
-  tokenAddress String
-  authorId     String
-  comment      String?
-  date         DateTime @default(now())
-  tokenId      String
-  token        Token    @relation("TokenComments", fields: [tokenId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  author       User     @relation(fields: [authorId], references: [userId], onDelete: Cascade)
+    id           Int      @id @default(autoincrement())
+    tokenAddress String
+    authorId     String
+    comment      String?
+    date         DateTime @default(now())
+    tokenId      String
+    token        Token    @relation("TokenComments", fields: [tokenId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    author       User     @relation(fields: [authorId], references: [userId], onDelete: Cascade)
 
-  @@map("comments")
+    @@map("comments")
 }
