@@ -23,7 +23,7 @@ export class S3StorageService {
         const { userId, fileName } = uploadFileDto;
         const s3UploadParams: S3.Types.PutObjectRequest = {
             Bucket: this.AWS_S3_BUCKET,
-            Key: `${userId}--${fileName}.${mimetype}`,
+            Key: `${userId}--${fileName}.${mimetype.split('/')[1]}`,
             Body: buffer,
             ACL: 'public-read',
             ContentType: mimetype,
