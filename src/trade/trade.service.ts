@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
+import { GetTradesDto } from 'src/trades/dto/get-trades.dto';
 
 @Injectable()
 export class TradeService {
@@ -10,7 +11,7 @@ export class TradeService {
         return this.prisma.trade.create({ data });
     }
 
-    async getTrades(filter: Prisma.TradeFindManyArgs) {
+    async getTrades(filter: GetTradesDto) {
         return this.prisma.trade.findMany(filter);
     }
 

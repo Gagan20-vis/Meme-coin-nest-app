@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { TradeService } from './trade.service';
+import { GetTradesDto } from 'src/trades/dto/get-trades.dto';
 
 @Controller('trades')
 export class TradeController {
@@ -12,7 +13,7 @@ export class TradeController {
     }
 
     @Get()
-    async getTrades(@Query() filter: Prisma.TradeFindManyArgs) {
+    async getTrades(@Query() filter: GetTradesDto) {
         return this.tradeService.getTrades(filter);
     }
 
