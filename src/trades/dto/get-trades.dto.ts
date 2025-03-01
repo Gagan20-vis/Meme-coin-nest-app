@@ -51,6 +51,18 @@ class TradeOrderByRelation implements Prisma.TradeOrderByWithRelationInput {
     date: 'asc' | 'desc';
 }
 
+class TradeIncludeInput implements Prisma.TradeInclude {
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty({ required: false, type: Boolean })
+    token?: boolean;
+
+    @IsOptional()
+    @IsObject()
+    @ApiProperty({ required: false, type: Boolean })
+    _count?: boolean;
+}
+
 export class GetTradesDto {
     @IsOptional()
     @IsObject()
@@ -61,6 +73,11 @@ export class GetTradesDto {
     @IsObject()
     @ApiProperty({ required: false, type: TradeWhereInput })
     where?: TradeWhereInput;
+
+    @IsOptional()
+    @IsObject()
+    @ApiProperty({ required: false, type: TradeIncludeInput })
+    include?: TradeIncludeInput;
 
     @IsOptional()
     @IsNumber()
