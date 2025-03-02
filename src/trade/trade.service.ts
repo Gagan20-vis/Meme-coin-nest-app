@@ -8,7 +8,45 @@ export class TradeService {
     constructor(private readonly prisma: PrismaService) {}
 
     async createTrade(data: Prisma.TradeCreateInput) {
-        return this.prisma.trade.create({ data });
+        const trade = await this.prisma.trade.create({ data });
+
+        const holder = await this.prisma.holder.findFirst({
+            where: {
+                walletAddress: trade.swapperAddress,
+                tokenAddress: trade.tokenAddress as any,
+            },
+            include: {
+                Wallet: true,
+            },
+        });
+
+        if (holder) {
+            await this.prisma.holder.update({
+                where: { id: holder.id },
+                data: {
+                    tokenAmount: holder.tokenAmount + trade.tokenAmount,
+                },
+            });
+        } else {
+            await this.prisma.holder.create({
+                data: {
+                    token: {
+                        connect: {
+                            tokenAddress: trade.tokenAddress as any,
+                        },
+                    },
+                    holder: {
+                        connect: {
+                            userId: holder.Wallet.userId,
+                        },
+                    },
+                    network: 'Solana',
+                    tokenAmount: trade.tokenAmount,
+                },
+            });
+        }
+
+        return trade;
     }
 
     async getTrades(filter: GetTradesDto) {
