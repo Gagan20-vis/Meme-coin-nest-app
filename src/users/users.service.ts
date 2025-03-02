@@ -127,7 +127,7 @@ export class UserService {
 
     async getFollowing(userId: string) {
         return this.prisma.follow.findMany({
-            where: { followerId: userId },
+            where: { followingId: userId },
             include: { following: true },
         });
     }
