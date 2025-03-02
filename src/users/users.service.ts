@@ -120,15 +120,15 @@ export class UserService {
 
     async getFollowers(userId: string) {
         return this.prisma.follow.findMany({
-            where: { followingId: userId },
-            include: { follower: true },
+            where: { followerId: userId },
+            include: { following: true },
         });
     }
 
     async getFollowing(userId: string) {
         return this.prisma.follow.findMany({
-            where: { followerId: userId },
-            include: { following: true },
+            where: { followingId: userId },
+            include: { follower: true },
         });
     }
 }
