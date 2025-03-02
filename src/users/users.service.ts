@@ -45,7 +45,7 @@ export class UserService {
         }
 
         const existingFollow = await this.prisma.follow.findFirst({
-            where: { followerId: userId, followingId: followUserId },
+            where: { followerId: followUserId, followingId: userId },
         });
 
         if (existingFollow) {
@@ -54,8 +54,8 @@ export class UserService {
 
         await this.prisma.follow.create({
             data: {
-                followerId: userId,
-                followingId: followUserId,
+                followerId: followUserId,
+                followingId: userId,
             },
         });
 
@@ -71,7 +71,7 @@ export class UserService {
         }
 
         const existingFollow = await this.prisma.follow.findFirst({
-            where: { followerId: userId, followingId: unfollowUserId },
+            where: { followerId: unfollowUserId, followingId: userId },
         });
 
         if (!existingFollow) {
@@ -81,8 +81,8 @@ export class UserService {
         await this.prisma.follow.delete({
             where: {
                 followerId_followingId: {
-                    followerId: userId,
-                    followingId: unfollowUserId,
+                    followerId: unfollowUserId,
+                    followingId: userId,
                 },
             },
         });
@@ -126,7 +126,7 @@ export class UserService {
 
     async getFollowers(userId: string) {
         return this.prisma.follow.findMany({
-            where: { followingId: userId },
+            where: { followerId: userId },
             include: { follower: true },
         });
     }
