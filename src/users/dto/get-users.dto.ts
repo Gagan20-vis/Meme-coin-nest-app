@@ -24,6 +24,48 @@ class UserWhereInput implements Prisma.UserWhereInput {
     referralId?: string;
 }
 
+class UserIncludeInput implements Prisma.UserInclude {
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty({ required: false, type: Boolean })
+    Holder?: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty({ required: false, type: Boolean })
+    Token?: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty({ required: false, type: Boolean })
+    followers?: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty({ required: false, type: Boolean })
+    Reaction?: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty({ required: false, type: Boolean })
+    Trade?: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty({ required: false, type: Boolean })
+    following?: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty({ required: false, type: Boolean })
+    comments?: boolean;
+
+    @IsOptional()
+    @IsObject()
+    @ApiProperty({ required: false, type: Boolean })
+    _count?: boolean;
+}
+
 export class GetUsersDto {
     @IsOptional()
     @IsObject()
@@ -34,6 +76,11 @@ export class GetUsersDto {
     @IsArray()
     @ApiProperty({ required: false, type: [Object] })
     orderBy?: Prisma.UserOrderByWithRelationInput[];
+
+    @IsOptional()
+    @IsObject()
+    @ApiProperty({ required: false, type: UserIncludeInput })
+    include?: UserIncludeInput;
 
     @IsOptional()
     @IsNumber()
