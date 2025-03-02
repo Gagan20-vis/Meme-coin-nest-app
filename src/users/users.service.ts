@@ -12,13 +12,7 @@ export class UserService {
     }
 
     async getUsers(getUsersQuery: GetUsersDto) {
-        return this.prisma.user.findMany({
-            where: getUsersQuery.where,
-            orderBy: getUsersQuery.orderBy,
-            take: getUsersQuery.take,
-            skip: getUsersQuery.skip,
-            distinct: getUsersQuery.distinct,
-        });
+        return this.prisma.user.findMany(getUsersQuery);
     }
 
     async getUserById(userId: string) {
