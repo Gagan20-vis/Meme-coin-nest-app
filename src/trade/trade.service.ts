@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
-import { GetTradesDto } from 'src/trades/dto/get-trades.dto';
+import { GetTradesDto } from 'src/trade/dto/get-trades.dto';
+import { CreateTradeDto } from './dto/create-trade.dto';
 
 @Injectable()
 export class TradeService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async createTrade(data: Prisma.TradeCreateInput) {
-        const trade = await this.prisma.trade.create({ data });
+    async createTrade(data: CreateTradeDto) {
+        const { solPrice, ...createTradeData } = data;
+        const trade = await this.prisma.trade.create({ data: { ...createTradeData } });
 
         const holder = await this.prisma.holder.findFirst({
             where: {
@@ -45,6 +47,13 @@ export class TradeService {
                 },
             });
         }
+
+        await this.prisma.token.update({
+            where: { tokenAddress: holder.tokenAddress },
+            data: {
+                volume: solPrice * trade.baseAmount,
+            },
+        });
 
         return trade;
     }

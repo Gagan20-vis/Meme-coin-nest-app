@@ -1,14 +1,15 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { TradeService } from './trade.service';
-import { GetTradesDto } from 'src/trades/dto/get-trades.dto';
+import { GetTradesDto } from 'src/trade/dto/get-trades.dto';
+import { CreateTradeDto } from './dto/create-trade.dto';
 
 @Controller('trades')
 export class TradeController {
     constructor(private readonly tradeService: TradeService) {}
 
     @Post()
-    async createTrade(@Body() data: Prisma.TradeCreateInput) {
+    async createTrade(@Body() data: CreateTradeDto) {
         return this.tradeService.createTrade(data);
     }
 
