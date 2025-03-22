@@ -14,6 +14,11 @@ class TokenWhereInput implements Prisma.TokenWhereInput {
     verified?: boolean;
 
     @IsOptional()
+    @IsBoolean()
+    @ApiProperty({ required: false, type: Boolean })
+    launched?: boolean;
+
+    @IsOptional()
     @IsString()
     @ApiProperty({ required: false, type: String })
     email?: string;
