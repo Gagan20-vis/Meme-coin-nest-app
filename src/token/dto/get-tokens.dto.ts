@@ -71,6 +71,11 @@ class TokenOrderByRelation implements Prisma.TokenOrderByWithRelationInput {
     @IsObject()
     @ApiProperty({ required: false, type: Object })
     Trade: Prisma.TradeOrderByRelationAggregateInput;
+
+    @IsOptional()
+    @IsObject()
+    @ApiProperty({ required: false, type: Object })
+    marketCap: Prisma.SortOrderInput | Prisma.SortOrder;
 }
 
 export class GetTokensDto {
