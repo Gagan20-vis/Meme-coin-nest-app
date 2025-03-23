@@ -34,12 +34,12 @@ export class TradeService {
                 data: {
                     token: {
                         connect: {
-                            tokenAddress: trade.tokenAddress as any,
+                            tokenAddress: trade.tokenAddress,
                         },
                     },
                     holder: {
                         connect: {
-                            userId: holder.Wallet.userId,
+                            userId: trade.swapperId,
                         },
                     },
                     network: 'Solana',
@@ -49,7 +49,7 @@ export class TradeService {
         }
 
         await this.prisma.token.update({
-            where: { tokenAddress: holder.tokenAddress },
+            where: { tokenAddress: trade.tokenAddress },
             data: {
                 volume: solPrice * trade.baseAmount,
             },
