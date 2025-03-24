@@ -123,7 +123,7 @@ model Token {
     volume              Float?
     makers              Int?
     price               Float?
-    launched            Boolean?
+    launched            Boolean?    @default(false)
     Holder              Holder[]
     Reaction            Reaction[]
     Trade               Trade[]
