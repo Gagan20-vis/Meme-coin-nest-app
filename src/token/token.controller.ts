@@ -18,8 +18,8 @@ export class TokenController {
     }
 
     @Get(':id')
-    async getTokenById(@Param('id') tokenId: string) {
-        return this.tokenService.getTokenById(tokenId);
+    async getTokenById(@Param('id') tokenId: string, @Query() filter: GetTokensDto) {
+        return this.tokenService.getTokenById(tokenId, filter);
     }
 
     @Put(':id')

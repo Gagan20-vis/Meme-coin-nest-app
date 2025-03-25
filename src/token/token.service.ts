@@ -15,8 +15,8 @@ export class TokenService {
         return this.prisma.token.findMany(filter);
     }
 
-    async getTokenById(tokenId: string) {
-        return this.prisma.token.findUnique({ where: { id: tokenId } });
+    async getTokenById(tokenId: string, filter: GetTokensDto) {
+        return this.prisma.token.findUnique({ where: { id: tokenId }, include: filter.include });
     }
 
     async updateToken(tokenId: string, data: Prisma.TokenUpdateInput) {
