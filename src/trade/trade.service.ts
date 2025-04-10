@@ -42,6 +42,11 @@ export class TradeService {
                             userId: trade.swapperId,
                         },
                     },
+                    Wallet: {
+                        connect: {
+                            address: trade.swapperAddress,
+                        },
+                    },
                     network: 'Solana',
                     tokenAmount: trade.tokenAmount,
                 },

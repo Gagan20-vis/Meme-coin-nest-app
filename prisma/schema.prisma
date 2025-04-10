@@ -152,19 +152,17 @@ model Reaction {
 
 model Holder {
     id                  Int     @id @default(autoincrement())
-    tokenName           String?
-    tokenSymbol         String?
     tokenAddress        String
     bondingCurveAddress String?
     network             Network
     holderAddress       String
+    walletAddress       String
     tokenAmount         Float?
     tokenMaxAmount      Float?
     creatorAddress      String?
     token               Token   @relation(fields: [tokenAddress], references: [tokenAddress], onDelete: Cascade, onUpdate: Cascade)
     holder              User    @relation(fields: [holderAddress], references: [userId], onDelete: Cascade, onUpdate: Cascade)
     Wallet              Wallet? @relation(fields: [walletAddress], references: [address])
-    walletAddress       String?
 
     @@index([tokenAddress, holderAddress], map: "holders_tokenAddress_holderAddress_unique")
     @@map("holders")
